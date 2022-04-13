@@ -1,26 +1,26 @@
-//Scope and Hoisting 
+//------------------------------------Scope and Hoisting 
 x = 1;
 var a = 5;
 var b = 10;
 var c = function(a, b, c) {
   var x = 10;
   console.log(x);//10
-  console.log(a);//5
+  console.log(a);//8
   var f = function(a, b, c) {
     b = a;
-    console.log(b);//5
+    console.log(b);//8
     b = c;
     var x = 5;
   }
   f(a,b,c);
-  console.log(b);//10
+  console.log(b);//9
 }
-c(8,9,10);//10, 8,8,8,
+c(8,9,10);
 console.log(b);//10
 console.log(x);//1
 console.log(bar);//undefined   
 console.log(baz);// undefined
-foo();//undefined
+foo();//"Hola"
 function foo() { console.log('Hola!'); }
 var bar = 1;
 baz = 2;
@@ -44,30 +44,32 @@ if (true) {
     var instructor = "The Flash";
     let pm = "Reverse Flash";
     console.log(instructor);//The Flash
-    console.log(pm);//undefined
+    console.log(pm);//Reverse Flash
 }
-console.log(instructor);//Tony
-console.log(pm);//Franco
+console.log(instructor);//The Flash
+console.log(pm);/*Franco :##Explicación
+(o hace porque la variable pm esta declarada con let, 
+lo cual su scope para reverse flash acaba dentro de las llaves del statement if*/
 
-//Coerción de datos
+//------------------------------------Coerción de datos
 6 / "3"//2
 "2" * "3"//6
 4 + 5 + "px"//"9px"
 "$" + 4 + 5//"$9"
 "4" - 2//2
 "4px" - 2//NaN
-7 / 0 //NaN
+7 / 0 //infinity
 {}[0]
 parseInt("09")//9
 5 && 2 //2
 2 && 5//5
 5 || 0//5
 0 || 5//5
-[3]+[3]-[10]//-4
+[3]+[3]-[10]//23, concatena los dos primeros arreglos, y como no puede concatenar el ultimo, le resta eso a la cifra concatenada
 3>2>1//false
 //[] == ![]//true
 
-//Hoisting
+//------------------------------------Hoisting
 
 
 function test() {
@@ -81,6 +83,8 @@ function test() {
  }
  
  test();//undefined ,2
+
+
  //Y el de este código? :
  
  var snack = 'Meow Mix';
@@ -93,10 +97,10 @@ function test() {
      return snack;
  }
  
- getFood(false);//"Meow Mix"
+ getFood(false);//undefined, al momento de ejecutar, snack no esta definida cuando se hace return al final del if, en caso negativo.
 
 
- //This
+ //------------------------------------This
 
  var fullname = 'Juan Perez';
 var obj = {
@@ -115,7 +119,7 @@ var test = obj.prop.getFullname;
 
 console.log(test());//Juan Perez
 
-//Event Loop
+//------------------------------------Event Loop
 
 function printing() {
     console.log(1);
