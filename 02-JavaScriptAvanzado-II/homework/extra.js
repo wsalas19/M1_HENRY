@@ -21,3 +21,30 @@ a
 console.log(a.repeatify(5))
 
 
+
+//Esta funcion genera tablas de multiplicar.
+
+function creadorTablaMultiplicar(factor) {
+    return function (arr) {
+        let tabla = [];  //defino una variable temporal heredable que almacena los valores un un array;
+        for (let element of arr) {
+            tabla.push(element * factor);
+        }
+        return tabla;
+    }
+}
+
+let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let tabladel2 = creadorTablaMultiplicar(2);
+let tabladel3 = creadorTablaMultiplicar(3);
+console.log(tabladel2(numeros));
+console.log(tabladel3(numeros));
+
+
+
+
+
+
+
+
+
