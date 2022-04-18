@@ -22,7 +22,7 @@ console.log(a.repeatify(5))
 
 
 
-//Esta funcion genera tablas de multiplicar.
+//Esta funcion genera tablas de multiplicar, pasandole un factor de multiplación por parametro.
 
 function creadorTablaMultiplicar(factor) {
     return function (arr) {
