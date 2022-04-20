@@ -1,4 +1,7 @@
 'use strict'
+
+const { remove } = require("@11ty/eleventy/src/TemplateCache");
+
 // Implementa la clase LinkedList
 // tiene metodos `add`, `remove`, y `search`
 // add: Agrega un nuevo nodo en el final de la lista
@@ -11,12 +14,66 @@
 // search: Busca un valor dentro de la lista. Puede recibir un valor o una función. Si no hubiera resultados, devuelve null.
 
 function LinkedList() {
-
+  this.head = null;
+  this._length = 0;
 }
 
-function Node(value){
-
+function Node(value) {
+  this.value = value;
+  this.next = null;
 }
+
+LinkedList.prototype.add = function (input) {
+  let newNode = new Node(input);
+  if (this._length === 0) {
+    this.head = newNode;
+  } else {
+    let pointer = this.head;
+    while (pointer.next) {
+      pointer = pointer.next;
+    }
+    pointer.next = newNode;
+  }
+  this._length++;
+}
+
+LinkedList.prototype.remove = function () {
+  let pointer = this.head,
+    eliminado;
+  if (this._length === 0) return null;
+  if (this._length === 1) {
+    let removed = pointer.value;
+    this.head = null;
+    this._length--;
+    return removed;
+  }
+  else {
+    while (pointer.next.next) {
+      pointer = pointer.next;
+    }
+    eliminado = pointer.next;
+    pointer.next = null;
+    this._length--;
+  }
+  return eliminado.value;
+}
+
+LinkedList.prototype.search = function (index) {
+  let current = this.head;
+  while (current !== null) {
+    if (typeof index === 'function') {
+      if (index(current.value)) {
+        return current.value;
+      }
+    }
+    else if (index === current.value) {
+      return current.value;
+    }
+    current = current.next;
+  }
+  return null;
+}
+
 
 // Hash Table( ver información en: https://es.wikipedia.org/wiki/Tabla_hash)
 // Una Hash table contiene un arreglo de "contenedores" o buckets donde puede guardar información.
@@ -30,8 +87,39 @@ function Node(value){
 //    - Usar el número obtenido, para buscar(llamando al método get) el contenedor o bucket donde está el valor.
 //    - Retornar dicho valor.
 
-function HashTable() {
-
+class HashTable {
+  constructor() {
+    this.numBuckets = 35;
+    this.buckets = [];
+  }
+  hash(llave) {
+    let hash = 0;
+    for (let i = 0; i < llave.length; i++) {
+      hash += llave.charCodeAt(i);
+    }
+    return hash % this.numBuckets
+  }
+  set(key,value){
+    if(typeof key !== "string"){
+      throw TypeError ("Key must be a String");
+    }
+    let i = this.hash(key);
+    if(this.buckets[i]===undefined){
+      this.buckets[i]={};
+    }
+    this.buckets[i][key]=value;
+  }
+  get(key){
+    let i = this.hash(key);
+    return this.buckets[i][key];
+  }
+  hasKey(key){
+    let i = this.hash(key);
+    if(this.buckets[i].hasOwnProperty(key)){
+      return true;
+    }
+    return false;
+  }
 }
 
 
